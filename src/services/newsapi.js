@@ -1,41 +1,41 @@
 import Vue from 'vue';
 
-export const getHeadlineNews = async ({ query = '' }) => {
-  let queryParams = {};
+export const getHeadlineNews = async ({
+  query = '',
+  country = 'US',
+  pageSize = 10,
+  page = 1
+} = {}) => {
+  const queryParams = {
+    q: query,
+    country,
+    pageSize,
+    page
+  };
 
-  if (query) {
-    queryParams = {
-      ...queryParams,
-      q: query
-    };
-  }
+  const headlineNewsResponse = await Vue.axios.get('/top-headlines', {
+    params: queryParams
+  });
 
-  try {
-    return await Vue.axios.get('/top-headlines', {
-      params: queryParams
-    });
-  } catch (e) {
-    console.error(e);
-    return [];
-  }
+  return headlineNewsResponse.articles;
 };
 
-export const getNews = async ({ query = '' }) => {
-  let queryParams = {};
+export const getNews = async ({
+  query = '',
+  country = 'US',
+  pageSize = 10,
+  page = 1
+} = {}) => {
+  const queryParams = {
+    q: query,
+    country,
+    pageSize,
+    page
+  };
 
-  if (query) {
-    queryParams = {
-      ...queryParams,
-      q: query
-    };
-  }
+  const newsResponse = await Vue.axios.get('/everything', {
+    params: queryParams
+  });
 
-  try {
-    return await Vue.axios.get('/everything', {
-      params: queryParams
-    });
-  } catch (e) {
-    console.error(e);
-    return [];
-  }
+  return newsResponse.articles;
 };
